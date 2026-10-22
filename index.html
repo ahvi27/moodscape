@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#7860dc">
+<title>Moodscape — A little space for your day</title>
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f7f5fb;--panel:#fff;--text:#302945;
+  --muted:#837b94;--border:#e9e3f1;
+  --accent:#7860dc;--soft:#f0ebff;
+}
+body.dark{
+  color-scheme:dark;
+  --bg:#181521;--panel:#24202f;--text:#f0eafa;
+  --muted:#b4a9c5;--border:#3c344b;
+  --accent:#b7a2ff;--soft:#352b4a;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,sans-serif;
+}
+button,input,textarea,select{font:inherit}
+button{
+  cursor:pointer;background:var(--panel);color:var(--text);
+  border:1px solid var(--border);border-radius:12px;
+  padding:11px 16px;
+}
+button:hover{background:var(--soft)}
+button:disabled{opacity:.5;cursor:not-allowed}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+[hidden]{display:none!important}
+header{
+  max-width:1180px;margin:auto;padding:25px 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.brand{display:flex;gap:10px;align-items:center;font-weight:800;font-size:23px}
+.brand-icon{
+  display:grid;place-items:center;background:#7860dc;color:white;
+  width:40px;height:40px;border-radius:14px;
+}
+.header-actions{display:flex;gap:8px;flex-wrap:wrap}
+main{max-width:1132px;margin:15px auto 60px;padding:0 24px}
+.hero{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:28px}
+.eyebrow{color:var(--accent);font-weight:750;font-size:12px;letter-spacing:2px}
+h1{font-size:clamp(30px,5vw,48px);letter-spacing:-1.8px;margin:10px 0}
+.subtitle,.muted{color:var(--muted)}
+.subtitle{line-height:1.7;margin:0}
+.hero-art{font-size:76px;transform:rotate(-12deg);user-select:none}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:25px}
+.stat{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:18px;padding:20px;
+}
+.stat strong{display:block;font-size:26px;margin-bottom:3px}
+.stat span{font-size:12px;color:var(--muted)}
+.layout{display:grid;grid-template-columns:365px minmax(0,1fr);gap:24px;align-items:start}
+.panel{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:24px;padding:25px;
+}
+.composer{position:sticky;top:20px}
+h2{margin:0 0 6px;font-size:21px;letter-spacing:-.5px}
+.description{color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:22px}
+.label{display:block;font-weight:650;font-size:13px;margin:20px 0 9px}
+.moods{display:flex;gap:7px}
+.mood{
+  flex:1;min-width:0;padding:12px 0;border-radius:15px;
+  font-size:26px;transition:transform .15s,background .15s;
+}
+.mood:hover{transform:translateY(-3px)}
+.mood[aria-pressed="true"]{
+  background:var(--soft);border-color:var(--accent);
+  box-shadow:0 0 0 2px var(--accent);
+}
+#moodHint{min-height:20px;margin:10px 0;font-size:12px;color:var(--accent)}
+input,textarea,select{
+  width:100%;padding:12px;border:1px solid var(--border);
+  border-radius:12px;background:var(--bg);color:var(--text);
+}
+textarea{resize:vertical;min-height:145px;line-height:1.7}
+.counter{text-align:right;font-size:11px;color:var(--muted);margin-top:6px}
+.primary{
+  width:100%;background:#7860dc;border-color:#7860dc;
+  color:#fff;margin-top:20px;font-weight:700;
+}
+.primary:hover{background:#6850ca}
+.privacy{font-size:11px;color:var(--muted);line-height:1.6;margin:14px 0 0}
+.journal-top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin:4px 0 15px}
+.pill{font-size:11px;padding:6px 10px;background:var(--soft);border-radius:20px;color:var(--accent)}
+.filters{display:grid;grid-template-columns:1fr 150px;gap:10px;margin-bottom:18px}
+.entries{display:grid;gap:15px}
+.entry{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:21px;padding:21px;animation:appear .2s ease-out;
+}
+.entry-head{display:flex;align-items:center;gap:12px}
+.entry-emoji{
+  display:grid;place-items:center;background:var(--soft);
+  width:48px;height:48px;border-radius:16px;font-size:26px;flex-shrink:0;
+}
+.entry-title{font-size:15px;margin:0;overflow-wrap:anywhere}
+.entry-date{font-size:11px;color:var(--muted);margin-top:4px}
+.entry p{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.75;font-size:14px;margin:16px 0}
+.entry-bottom{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.tag{color:var(--accent);font-size:12px}
+.delete{font-size:11px;padding:7px 10px;color:var(--muted)}
+.empty{text-align:center;padding:50px 25px;border:2px dashed var(--border);border-radius:23px}
+.empty-icon{font-size:45px}
+.empty h3{margin-bottom:8px}
+.empty p{color:var(--muted);font-size:13px;line-height:1.7}
+#status{min-height:22px;color:var(--accent);font-size:13px;margin:18px 0}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:25px}
+@keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+@media(max-width:850px){
+  .layout{grid-template-columns:1fr}.composer{position:static}
+  .hero-art{display:none}.header-actions button{padding:9px 11px;font-size:12px}
+}
+@media(max-width:480px){
+  header{align-items:flex-start;flex-direction:column}
+  main{padding:0 16px}.panel{padding:20px}
+  .stats{gap:8px}.stat{padding:15px 12px}
+  .stat strong{font-size:22px}.filters{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <span class="brand-icon" aria-hidden="true">✳</span>
+    Moodscape
+  </div>
+  <div class="header-actions">
+    <button id="exportButton" type="button">Export</button>
+    <button id="importButton" type="button">Import</button>
+    <button id="themeButton" type="button" aria-pressed="false">Dark mode</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <span class="eyebrow">A LITTLE SPACE FOR YOUR DAY</span>
+      <h1>How’s your world today?</h1>
+      <p class="subtitle">Pause for a moment. Capture a feeling.<br>Your everyday moments deserve a place.</p>
+    </div>
+    <div class="hero-art" aria-hidden="true">🌷</div>
+  </section>
+
+  <section class="stats" aria-label="Journal statistics">
+    <div class="stat"><strong id="totalCount">0</strong><span>Total entries</span></div>
+    <div class="stat"><strong id="dayCount">0</strong><span>Days recorded</span></div>
+    <div class="stat"><strong id="commonMood">—</strong><span>Most recorded mood</span></div>
+  </section>
+
+  <div class="layout">
+    <section class="panel composer">
+      <h2>Your daily check-in</h2>
+      <p class="description">There’s no perfect answer. Start with how you feel.</p>
+
+      <form id="entryForm">
+        <span class="label" id="moodLabel">Pick your mood</span>
+        <div class="moods" role="group" aria-labelledby="moodLabel">
+          <button class="mood" type="button" data-mood="great" aria-label="Great" aria-pressed="false">🤩</button>
+          <button class="mood" type="button" data-mood="good" aria-label="Good" aria-pressed="false">😊</button>
+          <button class="mood" type="button" data-mood="okay" aria-label="Okay" aria-pressed="false">😐</button>
+          <button class="mood" type="button" data-mood="low" aria-label="Low" aria-pressed="false">😔</button>
+          <button class="mood" type="button" data-mood="stressed" aria-label="Stressed" aria-pressed="false">😣</button>
+        </div>
+        <p id="moodHint">Choose the feeling that fits best.</p>
+
+        <label class="label" for="entryDate">Date</label>
+        <input id="entryDate" type="date" required>
+
+        <label class="label" for="entryTitle">Give this moment a title</label>
+        <input id="entryTitle" maxlength="70" required placeholder="A small win, a slow morning…">
+
+        <label class="label" for="entryText">What’s on your mind?</label>
+        <textarea id="entryText" maxlength="2000" required placeholder="Today I felt…"></textarea>
+        <div class="counter"><span id="characterCount">0</span> / 2000</div>
+
+        <button class="primary" type="submit">Save this moment ✨</button>
+      </form>
+
+      <p class="privacy">
+        Entries stay in this browser when storage is available.
+        Export a backup to keep a separate copy. This journal does not provide medical advice.
+      </p>
+    </section>
+
+    <section aria-labelledby="journalHeading">
+      <div class="journal-top">
+        <h2 id="journalHeading">Your moments</h2>
+        <span class="pill" id="resultsCount">0 entries</span>
+      </div>
+
+      <div class="filters">
+        <input id="searchInput" type="search" aria-label="Search journal" placeholder="Search your moments…">
+        <select id="moodFilter" aria-label="Filter by mood">
+          <option value="all">All moods</option>
+          <option value="great">🤩 Great</option>
+          <option value="good">😊 Good</option>
+          <option value="okay">😐 Okay</option>
+          <option value="low">😔 Low</option>
+          <option value="stressed">😣 Stressed</option>
+        </select>
+      </div>
+
+      <div class="entries" id="entries"></div>
+
+      <div class="empty" id="emptyState">
+        <div class="empty-icon" aria-hidden="true">🌱</div>
+        <h3 id="emptyTitle">Your story starts here</h3>
+        <p id="emptyText">Save your first moment using the check-in form.</p>
+      </div>
+    </section>
+  </div>
+
+  <p id="status" role="status" aria-live="polite"></p>
+  <input id="importInput" type="file" accept=".json,application/json" hidden>
+</main>
+
+<footer>Made for small moments and fresh starts. ✳</footer>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+const STORAGE_KEY = "moodscape-entries-v1";
+const THEME_KEY = "moodscape-theme";
+
+const moods = {
+  great: { emoji: "🤩", label: "Great", message: "A little sparkle in your day." },
+  good: { emoji: "😊", label: "Good", message: "Save something that made you smile." },
+  okay: { emoji: "😐", label: "Okay", message: "Ordinary days belong here too." },
+  low: { emoji: "😔", label: "Low", message: "You can write as much or as little as you need." },
+  stressed: { emoji: "😣", label: "Stressed", message: "Take a slow breath. One thought at a time." }
+};
+
+let entries = [];
+let selectedMood = null;
+let storageAvailable = true;
+
+function localDate(date = new Date()) {
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0")
+  ].join("-");
+}
+
+function validDate(value) {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const date = new Date(value + "T12:00:00");
+  return !Number.isNaN(date.getTime()) && localDate(date) === value;
+}
+
+function validEntry(entry) {
+  return entry !== null &&
+    typeof entry === "object" &&
+    typeof entry.id === "string" &&
+    entry.id.length > 0 && entry.id.length <= 150 &&
+    Object.hasOwn(moods, entry.mood) &&
+    validDate(entry.date) &&
+    typeof entry.title === "string" &&
+    entry.title.trim().length > 0 && entry.title.length <= 70 &&
+    typeof entry.text === "string" &&
+    entry.text.trim().length > 0 && entry.text.length <= 2000 &&
+    Number.isFinite(entry.createdAt) &&
+    entry.createdAt >= 0;
+}
+
+function cleanEntry(entry) {
+  return {
+    id: entry.id,
+    mood: entry.mood,
+    date: entry.date,
+    title: entry.title.trim(),
+    text: entry.text.trim(),
+    createdAt: entry.createdAt
+  };
+}
+
+try {
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  if (!Array.isArray(saved) || !saved.every(validEntry)) {
+    throw new Error("Invalid stored entries");
+  }
+  const unique = new Map(saved.map(entry => [entry.id, cleanEntry(entry)]));
+  entries = [...unique.values()];
+} catch {
+  // Preserve existing browser data rather than overwrite unreadable content.
+  storageAvailable = false;
+  $("status").textContent =
+    "Saved entries could not be loaded. Changes will stay in this tab; export them before closing.";
+}
+
+function persist() {
+  if (!storageAvailable) return false;
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function announce(message, saved) {
+  $("status").textContent = message + (
+    saved ? "" : " Browser saving is unavailable. Export a backup before closing."
+  );
+}
+
+function makeId() {
+  return globalThis.crypto?.randomUUID?.() ||
+    `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+}
+
+$("entryDate").value = localDate();
+
+document.querySelectorAll(".mood").forEach(button => {
+  button.addEventListener("click", () => {
+    selectedMood = button.dataset.mood;
+
+    document.querySelectorAll(".mood").forEach(item => {
+      item.setAttribute("aria-pressed", String(item === button));
+    });
+
+    $("moodHint").textContent = moods[selectedMood].message;
+  });
+});
+
+$("entryText").addEventListener("input", () => {
+  $("characterCount").textContent = $("entryText").value.length;
+});
+
+$("entryForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  if (!selectedMood) {
+    $("status").textContent = "Choose a mood before saving.";
+    document.querySelector(".mood").focus();
+    return;
+  }
+
+  const title = $("entryTitle").value.trim();
+  const text = $("entryText").value.trim();
+  const date = $("entryDate").value;
+
+  if (!title || !text || !validDate(date)) {
+    $("status").textContent = "Add a valid date, a title, and a short note.";
+    return;
+  }
+
+  entries.push({
+    id: makeId(),
+    mood: selectedMood,
+    date,
+    title,
+    text,
+    createdAt: Date.now()
+  });
+
+  const saved = persist();
+
+  $("entryForm").reset();
+  $("entryDate").value = localDate();
+  $("characterCount").textContent = "0";
+  selectedMood = null;
+
+  document.querySelectorAll(".mood").forEach(button => {
+    button.setAttribute("aria-pressed", "false");
+  });
+
+  $("moodHint").textContent = "Choose the feeling that fits best.";
+  render();
+  announce("Your moment has been added.", saved);
+});
+
+function displayDate(value) {
+  return new Date(value + "T12:00:00").toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  });
+}
+
+function render() {
+  const query = $("searchInput").value.trim().toLowerCase();
+  const filter = $("moodFilter").value;
+
+  const visible = entries.filter(entry =>
+    (filter === "all" || entry.mood === filter) &&
+    `${entry.title} ${entry.text}`.toLowerCase().includes(query)
+  ).sort((a, b) =>
+    b.date.localeCompare(a.date) || b.createdAt - a.createdAt
+  );
+
+  $("entries").replaceChildren();
+
+  for (const entry of visible) {
+    const mood = moods[entry.mood];
+
+    const article = document.createElement("article");
+    article.className = "entry";
+
+    const head = document.createElement("div");
+    head.className = "entry-head";
+
+    const emoji = document.createElement("span");
+    emoji.className = "entry-emoji";
+    emoji.textContent = mood.emoji;
+    emoji.setAttribute("aria-hidden", "true");
+
+    const info = document.createElement("div");
+
+    const title = document.createElement("h3");
+    title.className = "entry-title";
+    title.textContent = entry.title;
+
+    const date = document.createElement("div");
+    date.className = "entry-date";
+    date.textContent = displayDate(entry.date);
+
+    info.append(title, date);
+    head.append(emoji, info);
+
+    const text = document.createElement("p");
+    text.textContent = entry.text;
+
+    const bottom = document.createElement("div");
+    bottom.className = "entry-bottom";
+
+    const tag = document.createElement("span");
+    tag.className = "tag";
+    tag.textContent = `Feeling ${mood.label.toLowerCase()}`;
+
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "delete";
+    remove.textContent = "Delete";
+    remove.setAttribute("aria-label", `Delete entry: ${entry.title}`);
+
+    remove.addEventListener("click", () => {
+      if (!confirm(`Delete “${entry.title}”?`)) return;
+
+      entries = entries.filter(item => item.id !== entry.id);
+      const saved = persist();
+
+      render();
+      announce("Entry deleted.", saved);
+      $("searchInput").focus();
+    });
+
+    bottom.append(tag, remove);
+    article.append(head, text, bottom);
+    $("entries").append(article);
+  }
+
+  $("resultsCount").textContent =
+    `${visible.length} ${visible.length === 1 ? "entry" : "entries"}`;
+
+  $("emptyState").hidden = visible.length > 0;
+  $("emptyTitle").textContent =
+    entries.length ? "No matching moments" : "Your story starts here";
+  $("emptyText").textContent =
+    entries.length
+      ? "Try a different search or mood filter."
+      : "Save your first moment using the check-in form.";
+
+  $("totalCount").textContent = entries.length;
+  $("dayCount").textContent = new Set(entries.map(entry => entry.date)).size;
+
+  const counts = {};
+  for (const entry of entries) counts[entry.mood] = (counts[entry.mood] || 0) + 1;
+
+  const highest = Math.max(0, ...Object.values(counts));
+  const leaders = Object.keys(moods).filter(key => counts[key] === highest);
+
+  $("commonMood").textContent = highest
+    ? leaders.map(key => moods[key].emoji).join(" ")
+    : "—";
+
+  $("commonMood").title = highest
+    ? leaders.map(key => moods[key].label).join(", ")
+    : "No entries yet";
+}
+
+$("searchInput").addEventListener("input", render);
+$("moodFilter").addEventListener("change", render);
+
+// THEME
+try {
+  document.body.classList.toggle(
+    "dark",
+    localStorage.getItem(THEME_KEY) === "dark"
+  );
+} catch {}
+
+function updateThemeButton() {
+  const dark = document.body.classList.contains("dark");
+  $("themeButton").textContent = dark ? "Light mode" : "Dark mode";
+  $("themeButton").setAttribute("aria-pressed", String(dark));
+}
+
+$("themeButton").addEventListener("click", () => {
+  const dark = document.body.classList.toggle("dark");
+  try { localStorage.setItem(THEME_KEY, dark ? "dark" : "light"); } catch {}
+  updateThemeButton();
+});
+
+// BACKUP EXPORT
+$("exportButton").addEventListener("click", () => {
+  const backup = {
+    app: "Moodscape",
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    entries
+  };
+
+  const url = URL.createObjectURL(new Blob(
+    [JSON.stringify(backup, null, 2)],
+    { type: "application/json" }
+  ));
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `moodscape-backup-${localDate()}.json`;
+  document.body.append(link);
+  link.click();
+  link.remove();
+
+  setTimeout(() => URL.revokeObjectURL(url), 10000);
+  $("status").textContent = "Backup download requested.";
+});
+
+// BACKUP IMPORT: merge without replacing existing entries
+$("importButton").addEventListener("click", () => {
+  $("importInput").value = "";
+  $("importInput").click();
+});
+
+$("importInput").addEventListener("change", async () => {
+  const file = $("importInput").files[0];
+  if (!file) return;
+
+  if (file.size > 5 * 1024 * 1024) {
+    $("status").textContent = "Choose a backup smaller than 5 MB.";
+    return;
+  }
+
+  try {
+    const backup = JSON.parse(await file.text());
+
+    if (
+      backup?.app !== "Moodscape" ||
+      backup.version !== 1 ||
+      !Array.isArray(backup.entries) ||
+      backup.entries.length > 10000 ||
+      !backup.entries.every(validEntry)
+    ) {
+      throw new Error("Invalid backup");
+    }
+
+    const known = new Set(entries.map(entry => entry.id));
+    const additions = [];
+
+    for (const entry of backup.entries) {
+      if (!known.has(entry.id)) {
+        known.add(entry.id);
+        additions.push(cleanEntry(entry));
+      }
+    }
+
+    entries.push(...additions);
+    const saved = persist();
+
+    render();
+    announce(
+      `Imported ${additions.length} new ${additions.length === 1 ? "entry" : "entries"}.`,
+      saved
+    );
+  } catch {
+    $("status").textContent =
+      "This file is not a valid Moodscape backup. Existing entries were preserved.";
+  }
+});
+
+updateThemeButton();
+render();
+</script>
+</body>
+</html>
