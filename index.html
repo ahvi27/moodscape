@@ -4,12 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#7860dc">
-<title>Moodscape — A little space for your day</title>
+<title>Moodscape — Your daily journal</title>
+
 <style>
 :root{
   color-scheme:light;
   --bg:#f7f5fb;--panel:#fff;--text:#302945;
-  --muted:#837b94;--border:#e9e3f1;
+  --muted:#81788f;--border:#e7e1f0;
   --accent:#7860dc;--soft:#f0ebff;
 }
 body.dark{
@@ -24,117 +25,129 @@ body{
   font-family:system-ui,-apple-system,sans-serif;
 }
 button,input,textarea,select{font:inherit}
-button{
+button,.button{
   cursor:pointer;background:var(--panel);color:var(--text);
-  border:1px solid var(--border);border-radius:12px;
-  padding:11px 16px;
+  border:1px solid var(--border);border-radius:11px;
+  padding:10px 13px;font-size:13px;
 }
 button:hover{background:var(--soft)}
-button:disabled{opacity:.5;cursor:not-allowed}
+button:disabled{opacity:.4;cursor:not-allowed}
 :focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 [hidden]{display:none!important}
 header{
-  max-width:1180px;margin:auto;padding:25px 24px;
-  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  max-width:1240px;margin:auto;padding:24px;
+  display:flex;justify-content:space-between;align-items:center;gap:15px;
 }
-.brand{display:flex;gap:10px;align-items:center;font-weight:800;font-size:23px}
-.brand-icon{
-  display:grid;place-items:center;background:#7860dc;color:white;
-  width:40px;height:40px;border-radius:14px;
+.brand{display:flex;gap:10px;align-items:center;font-size:23px;font-weight:800}
+.logo{
+  display:grid;place-items:center;width:42px;height:42px;
+  background:#7860dc;color:white;border-radius:14px;
 }
-.header-actions{display:flex;gap:8px;flex-wrap:wrap}
-main{max-width:1132px;margin:15px auto 60px;padding:0 24px}
-.hero{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:28px}
-.eyebrow{color:var(--accent);font-weight:750;font-size:12px;letter-spacing:2px}
-h1{font-size:clamp(30px,5vw,48px);letter-spacing:-1.8px;margin:10px 0}
-.subtitle,.muted{color:var(--muted)}
-.subtitle{line-height:1.7;margin:0}
-.hero-art{font-size:76px;transform:rotate(-12deg);user-select:none}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:25px}
-.stat{
+.actions{display:flex;gap:7px;flex-wrap:wrap}
+main{max-width:1192px;margin:12px auto 50px;padding:0 24px}
+.hero{margin:25px 0}
+.eyebrow{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:750}
+h1{font-size:clamp(32px,5vw,48px);letter-spacing:-1.7px;margin:10px 0}
+.muted,.description{color:var(--muted)}
+.description{font-size:13px;line-height:1.7}
+h2{font-size:20px;letter-spacing:-.4px;margin:0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:25px 0}
+.stat,.panel,.entry{
   background:var(--panel);border:1px solid var(--border);
-  border-radius:18px;padding:20px;
+  border-radius:20px;padding:21px;
 }
-.stat strong{display:block;font-size:26px;margin-bottom:3px}
+.stat strong{display:block;font-size:26px}
 .stat span{font-size:12px;color:var(--muted)}
-.layout{display:grid;grid-template-columns:365px minmax(0,1fr);gap:24px;align-items:start}
-.panel{
-  background:var(--panel);border:1px solid var(--border);
-  border-radius:24px;padding:25px;
+.layout{display:grid;grid-template-columns:345px minmax(0,1fr);gap:24px;align-items:start}
+.composer{position:sticky;top:18px}
+label,.label{display:block;font-size:13px;font-weight:650;margin:18px 0 8px}
+input,textarea,select{
+  width:100%;border:1px solid var(--border);border-radius:11px;
+  background:var(--bg);color:var(--text);padding:11px;
 }
-.composer{position:sticky;top:20px}
-h2{margin:0 0 6px;font-size:21px;letter-spacing:-.5px}
-.description{color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:22px}
-.label{display:block;font-weight:650;font-size:13px;margin:20px 0 9px}
+textarea{min-height:160px;resize:vertical;line-height:1.7}
 .moods{display:flex;gap:7px}
-.mood{
-  flex:1;min-width:0;padding:12px 0;border-radius:15px;
-  font-size:26px;transition:transform .15s,background .15s;
-}
-.mood:hover{transform:translateY(-3px)}
-.mood[aria-pressed="true"]{
+.mood{flex:1;min-width:0;font-size:25px;padding:10px 0}
+.mood[aria-pressed=true]{
   background:var(--soft);border-color:var(--accent);
   box-shadow:0 0 0 2px var(--accent);
 }
-#moodHint{min-height:20px;margin:10px 0;font-size:12px;color:var(--accent)}
-input,textarea,select{
-  width:100%;padding:12px;border:1px solid var(--border);
-  border-radius:12px;background:var(--bg);color:var(--text);
+#moodHint{font-size:12px;color:var(--accent);min-height:18px}
+.counter{text-align:right;font-size:11px;color:var(--muted);margin-top:5px}
+.primary{background:#7860dc;border-color:#7860dc;color:white;font-weight:700}
+.primary:hover{background:#684fc7}
+.submit{width:100%;margin-top:18px}
+.small{font-size:11px;line-height:1.7}
+.prompt{
+  margin-top:18px;padding:13px;background:var(--soft);
+  border-radius:13px;
 }
-textarea{resize:vertical;min-height:145px;line-height:1.7}
-.counter{text-align:right;font-size:11px;color:var(--muted);margin-top:6px}
-.primary{
-  width:100%;background:#7860dc;border-color:#7860dc;
-  color:#fff;margin-top:20px;font-weight:700;
-}
-.primary:hover{background:#6850ca}
-.privacy{font-size:11px;color:var(--muted);line-height:1.6;margin:14px 0 0}
-.journal-top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin:4px 0 15px}
-.pill{font-size:11px;padding:6px 10px;background:var(--soft);border-radius:20px;color:var(--accent)}
-.filters{display:grid;grid-template-columns:1fr 150px;gap:10px;margin-bottom:18px}
-.entries{display:grid;gap:15px}
-.entry{
-  background:var(--panel);border:1px solid var(--border);
-  border-radius:21px;padding:21px;animation:appear .2s ease-out;
-}
-.entry-head{display:flex;align-items:center;gap:12px}
+.prompt p{font-size:13px;line-height:1.6;margin:0 0 10px}
+.prompt button{font-size:11px;padding:6px 9px}
+#draftStatus{min-height:18px;font-size:11px;color:var(--muted)}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+.tabs{display:flex;gap:7px;margin-bottom:16px;flex-wrap:wrap}
+.tabs button[aria-pressed=true]{background:var(--soft);border-color:var(--accent);color:var(--accent)}
+.filters{display:grid;grid-template-columns:1fr 130px;gap:9px;margin-bottom:10px}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:17px}
+.filter-row label{display:flex;gap:7px;align-items:center;font-size:12px;font-weight:400;margin:0}
+input[type=checkbox]{width:auto;accent-color:var(--accent)}
+.filter-row select{width:auto;padding:8px;font-size:12px;margin-left:auto}
+.entries{display:grid;gap:14px}
+.entry-head{display:flex;gap:12px;align-items:center}
 .entry-emoji{
-  display:grid;place-items:center;background:var(--soft);
-  width:48px;height:48px;border-radius:16px;font-size:26px;flex-shrink:0;
+  width:46px;height:46px;border-radius:14px;background:var(--soft);
+  display:grid;place-items:center;font-size:25px;flex-shrink:0;
 }
-.entry-title{font-size:15px;margin:0;overflow-wrap:anywhere}
-.entry-date{font-size:11px;color:var(--muted);margin-top:4px}
-.entry p{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.75;font-size:14px;margin:16px 0}
-.entry-bottom{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.tag{color:var(--accent);font-size:12px}
-.delete{font-size:11px;padding:7px 10px;color:var(--muted)}
-.empty{text-align:center;padding:50px 25px;border:2px dashed var(--border);border-radius:23px}
-.empty-icon{font-size:45px}
-.empty h3{margin-bottom:8px}
-.empty p{color:var(--muted);font-size:13px;line-height:1.7}
-#status{min-height:22px;color:var(--accent);font-size:13px;margin:18px 0}
-footer{text-align:center;color:var(--muted);font-size:12px;padding:25px}
-@keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
-@media(max-width:850px){
+.entry h3{font-size:15px;margin:0;overflow-wrap:anywhere}
+.date{font-size:11px;color:var(--muted);margin-top:4px}
+.entry p{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.75;font-size:14px}
+.entry-bottom{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.tag{font-size:12px;color:var(--accent)}
+.entry-actions{display:flex;gap:5px}
+.entry-actions button{padding:7px 10px;font-size:11px}
+.favorite[aria-pressed=true]{background:var(--soft);border-color:var(--accent)}
+.pill{font-size:11px;color:var(--accent);background:var(--soft);padding:6px 10px;border-radius:20px}
+.empty{text-align:center;padding:40px 20px;border:2px dashed var(--border);border-radius:20px}
+.empty div{font-size:40px}
+.empty p{font-size:13px;color:var(--muted)}
+.calendar-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px}
+.calendar-head strong{text-align:center}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.weekday{text-align:center;font-size:11px;color:var(--muted);padding:8px 0}
+.calendar-day{min-height:68px;padding:8px 3px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px}
+.calendar-day.today{border-color:var(--accent)}
+.calendar-day.selected{background:var(--soft);box-shadow:0 0 0 2px var(--accent)}
+.calendar-day .number{font-size:12px}
+.calendar-day .emojis{font-size:16px;line-height:1.2}
+.calendar-day small{font-size:9px;color:var(--muted)}
+.calendar-note{font-size:11px;line-height:1.7;color:var(--muted)}
+.chart-row{display:grid;grid-template-columns:95px 1fr 35px;align-items:center;gap:10px;margin:18px 0}
+.chart-label{font-size:12px}
+.track{height:18px;border-radius:20px;background:var(--bg);overflow:hidden}
+.bar{height:100%;border-radius:20px;background:#a48bea}
+.chart-count{font-size:12px;color:var(--muted);text-align:right}
+#status{min-height:24px;font-size:13px;color:var(--accent);margin:22px 0}
+footer{text-align:center;padding:20px;color:var(--muted);font-size:12px}
+@media(max-width:900px){
   .layout{grid-template-columns:1fr}.composer{position:static}
-  .hero-art{display:none}.header-actions button{padding:9px 11px;font-size:12px}
 }
-@media(max-width:480px){
+@media(max-width:520px){
   header{align-items:flex-start;flex-direction:column}
-  main{padding:0 16px}.panel{padding:20px}
-  .stats{gap:8px}.stat{padding:15px 12px}
-  .stat strong{font-size:22px}.filters{grid-template-columns:1fr}
+  main{padding:0 15px}.stats{grid-template-columns:repeat(2,1fr)}
+  .panel,.entry{padding:17px}.filters{grid-template-columns:1fr}
+  .calendar-grid{gap:3px}.calendar-day{min-height:60px;padding:7px 1px}
+}
+@media(prefers-reduced-motion:no-preference){
+  button{transition:background .15s,border-color .15s}
 }
 </style>
 </head>
+
 <body>
 <header>
-  <div class="brand">
-    <span class="brand-icon" aria-hidden="true">✳</span>
-    Moodscape
-  </div>
-  <div class="header-actions">
+  <div class="brand"><span class="logo" aria-hidden="true">✳</span>Moodscape</div>
+  <div class="actions">
     <button id="exportButton" type="button">Export</button>
     <button id="importButton" type="button">Import</button>
     <button id="themeButton" type="button" aria-pressed="false">Dark mode</button>
@@ -143,80 +156,124 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:25px}
 
 <main>
   <section class="hero">
-    <div>
-      <span class="eyebrow">A LITTLE SPACE FOR YOUR DAY</span>
-      <h1>How’s your world today?</h1>
-      <p class="subtitle">Pause for a moment. Capture a feeling.<br>Your everyday moments deserve a place.</p>
-    </div>
-    <div class="hero-art" aria-hidden="true">🌷</div>
+    <span class="eyebrow">YOUR MOMENTS, YOUR SPACE</span>
+    <h1>Make room for how you feel.</h1>
+    <p class="description">Capture your day, notice your patterns, and keep the moments that matter.</p>
   </section>
 
   <section class="stats" aria-label="Journal statistics">
     <div class="stat"><strong id="totalCount">0</strong><span>Total entries</span></div>
     <div class="stat"><strong id="dayCount">0</strong><span>Days recorded</span></div>
+    <div class="stat"><strong id="favoriteCount">0</strong><span>Favorite moments</span></div>
     <div class="stat"><strong id="commonMood">—</strong><span>Most recorded mood</span></div>
   </section>
 
   <div class="layout">
     <section class="panel composer">
-      <h2>Your daily check-in</h2>
-      <p class="description">There’s no perfect answer. Start with how you feel.</p>
+      <div class="section-head">
+        <h2 id="formHeading">Daily check-in</h2>
+        <span id="editBadge" class="pill" hidden>Editing</span>
+      </div>
+      <p class="description">Choose a feeling and write a little about your day.</p>
 
       <form id="entryForm">
-        <span class="label" id="moodLabel">Pick your mood</span>
+        <span class="label" id="moodLabel">Your mood</span>
         <div class="moods" role="group" aria-labelledby="moodLabel">
-          <button class="mood" type="button" data-mood="great" aria-label="Great" aria-pressed="false">🤩</button>
-          <button class="mood" type="button" data-mood="good" aria-label="Good" aria-pressed="false">😊</button>
-          <button class="mood" type="button" data-mood="okay" aria-label="Okay" aria-pressed="false">😐</button>
-          <button class="mood" type="button" data-mood="low" aria-label="Low" aria-pressed="false">😔</button>
-          <button class="mood" type="button" data-mood="stressed" aria-label="Stressed" aria-pressed="false">😣</button>
+          <button type="button" class="mood" data-mood="great" aria-label="Great" aria-pressed="false">🤩</button>
+          <button type="button" class="mood" data-mood="good" aria-label="Good" aria-pressed="false">😊</button>
+          <button type="button" class="mood" data-mood="okay" aria-label="Okay" aria-pressed="false">😐</button>
+          <button type="button" class="mood" data-mood="low" aria-label="Low" aria-pressed="false">😔</button>
+          <button type="button" class="mood" data-mood="stressed" aria-label="Stressed" aria-pressed="false">😣</button>
         </div>
-        <p id="moodHint">Choose the feeling that fits best.</p>
+        <p id="moodHint">Every feeling belongs here.</p>
 
-        <label class="label" for="entryDate">Date</label>
+        <label for="entryDate">Date</label>
         <input id="entryDate" type="date" required>
 
-        <label class="label" for="entryTitle">Give this moment a title</label>
-        <input id="entryTitle" maxlength="70" required placeholder="A small win, a slow morning…">
+        <label for="entryTitle">Title</label>
+        <input id="entryTitle" maxlength="70" required placeholder="A moment worth remembering…">
 
-        <label class="label" for="entryText">What’s on your mind?</label>
+        <label for="entryText">Your thoughts</label>
         <textarea id="entryText" maxlength="2000" required placeholder="Today I felt…"></textarea>
         <div class="counter"><span id="characterCount">0</span> / 2000</div>
 
-        <button class="primary" type="submit">Save this moment ✨</button>
+        <button class="primary submit" id="saveButton" type="submit">Save moment ✨</button>
+        <button id="cancelEditButton" type="button" style="width:100%;margin-top:8px" hidden>Cancel edit</button>
       </form>
 
-      <p class="privacy">
-        Entries stay in this browser when storage is available.
-        Export a backup to keep a separate copy. This journal does not provide medical advice.
+      <p id="draftStatus" role="status"></p>
+
+      <div class="prompt">
+        <p id="promptText"></p>
+        <button id="newPromptButton" type="button">New prompt</button>
+        <button id="usePromptButton" type="button">Add to note</button>
+      </div>
+
+      <p class="small muted">
+        Entries and drafts are stored in this browser when available.
+        Export important entries. This journal does not provide a health assessment.
       </p>
     </section>
 
-    <section aria-labelledby="journalHeading">
-      <div class="journal-top">
-        <h2 id="journalHeading">Your moments</h2>
+    <section>
+      <div class="section-head">
+        <h2>Your journal</h2>
         <span class="pill" id="resultsCount">0 entries</span>
       </div>
 
-      <div class="filters">
-        <input id="searchInput" type="search" aria-label="Search journal" placeholder="Search your moments…">
-        <select id="moodFilter" aria-label="Filter by mood">
-          <option value="all">All moods</option>
-          <option value="great">🤩 Great</option>
-          <option value="good">😊 Good</option>
-          <option value="okay">😐 Okay</option>
-          <option value="low">😔 Low</option>
-          <option value="stressed">😣 Stressed</option>
-        </select>
+      <div class="tabs" role="group" aria-label="Journal view">
+        <button type="button" data-view="journal" aria-pressed="true">Moments</button>
+        <button type="button" data-view="calendar" aria-pressed="false">Calendar</button>
+        <button type="button" data-view="insights" aria-pressed="false">Mood chart</button>
       </div>
 
-      <div class="entries" id="entries"></div>
+      <div id="journalView">
+        <div class="filters">
+          <input id="searchInput" type="search" aria-label="Search journal" placeholder="Search your moments…">
+          <select id="moodFilter" aria-label="Filter by mood">
+            <option value="all">All moods</option>
+            <option value="great">🤩 Great</option>
+            <option value="good">😊 Good</option>
+            <option value="okay">😐 Okay</option>
+            <option value="low">😔 Low</option>
+            <option value="stressed">😣 Stressed</option>
+          </select>
+        </div>
 
-      <div class="empty" id="emptyState">
-        <div class="empty-icon" aria-hidden="true">🌱</div>
-        <h3 id="emptyTitle">Your story starts here</h3>
-        <p id="emptyText">Save your first moment using the check-in form.</p>
+        <div class="filter-row">
+          <label><input id="favoritesOnly" type="checkbox"> Favorites only</label>
+          <button id="clearDateButton" type="button" hidden>Clear date</button>
+          <select id="sortOrder" aria-label="Sort entries">
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+          </select>
+        </div>
+
+        <div id="entries" class="entries"></div>
+        <div id="emptyState" class="empty">
+          <div aria-hidden="true">🌱</div>
+          <h3 id="emptyTitle">Your story starts here</h3>
+          <p id="emptyText">Save your first moment using the check-in form.</p>
+        </div>
       </div>
+
+      <section id="calendarView" class="panel" aria-label="Journal calendar" hidden>
+        <div class="calendar-head">
+          <button id="previousMonth" type="button" aria-label="Previous month">←</button>
+          <strong id="monthTitle"></strong>
+          <button id="nextMonth" type="button" aria-label="Next month">→</button>
+        </div>
+        <div id="calendarGrid" class="calendar-grid"></div>
+        <p class="calendar-note">Select a day to view its entries. Mood icons show recorded feelings.</p>
+      </section>
+
+      <section id="insightsView" class="panel" aria-label="Mood distribution" hidden>
+        <h2>Your recorded moods</h2>
+        <p class="description">Number of entries for each mood across your whole journal.</p>
+        <div id="moodChart"></div>
+        <p id="chartSummary" class="small muted"></p>
+        <p class="small muted">Counts reflect what you chose to record. They do not measure your overall wellbeing.</p>
+      </section>
     </section>
   </div>
 
@@ -224,7 +281,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:25px}
   <input id="importInput" type="file" accept=".json,application/json" hidden>
 </main>
 
-<footer>Made for small moments and fresh starts. ✳</footer>
+<footer>A little reflection. A little room to grow. 🌷</footer>
 
 <script>
 "use strict";
@@ -232,117 +289,233 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:25px}
 const $ = id => document.getElementById(id);
 const STORAGE_KEY = "moodscape-entries-v1";
 const THEME_KEY = "moodscape-theme";
+const DRAFT_KEY = "moodscape-draft-v1";
 
 const moods = {
-  great: { emoji: "🤩", label: "Great", message: "A little sparkle in your day." },
-  good: { emoji: "😊", label: "Good", message: "Save something that made you smile." },
-  okay: { emoji: "😐", label: "Okay", message: "Ordinary days belong here too." },
-  low: { emoji: "😔", label: "Low", message: "You can write as much or as little as you need." },
-  stressed: { emoji: "😣", label: "Stressed", message: "Take a slow breath. One thought at a time." }
+  great:{emoji:"🤩",label:"Great",hint:"What brought some sparkle to your day?"},
+  good:{emoji:"😊",label:"Good",hint:"Save something that made you smile."},
+  okay:{emoji:"😐",label:"Okay",hint:"Ordinary moments count too."},
+  low:{emoji:"😔",label:"Low",hint:"Write as much or as little as you need."},
+  stressed:{emoji:"😣",label:"Stressed",hint:"One thought at a time."}
 };
+
+const prompts = [
+  "What is one small thing you appreciated today?",
+  "What used most of your energy today?",
+  "What would you like to remember about this day?",
+  "What is something you handled better than before?",
+  "What could make tomorrow a little easier?",
+  "Who made you feel supported recently?",
+  "What do you need more of this week?",
+  "What surprised you today?"
+];
 
 let entries = [];
 let selectedMood = null;
-let storageAvailable = true;
+let editingId = null;
+let dateFilter = null;
+let activeView = "journal";
+let storageReadable = true;
+let draftReadable = true;
+let draftTimer;
+let promptIndex = Math.floor(Math.random() * prompts.length);
+let calendarMonth = new Date();
+calendarMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), 1);
 
-function localDate(date = new Date()) {
+function localDate(date = new Date()){
   return [
     date.getFullYear(),
-    String(date.getMonth() + 1).padStart(2, "0"),
-    String(date.getDate()).padStart(2, "0")
+    String(date.getMonth()+1).padStart(2,"0"),
+    String(date.getDate()).padStart(2,"0")
   ].join("-");
 }
 
-function validDate(value) {
-  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+function validDate(value){
+  if(typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
   const date = new Date(value + "T12:00:00");
   return !Number.isNaN(date.getTime()) && localDate(date) === value;
 }
 
-function validEntry(entry) {
-  return entry !== null &&
-    typeof entry === "object" &&
-    typeof entry.id === "string" &&
-    entry.id.length > 0 && entry.id.length <= 150 &&
-    Object.hasOwn(moods, entry.mood) &&
+function validEntry(entry){
+  return entry !== null && typeof entry === "object" &&
+    typeof entry.id === "string" && entry.id.length > 0 && entry.id.length <= 150 &&
+    Object.hasOwn(moods,entry.mood) &&
     validDate(entry.date) &&
-    typeof entry.title === "string" &&
-    entry.title.trim().length > 0 && entry.title.length <= 70 &&
-    typeof entry.text === "string" &&
-    entry.text.trim().length > 0 && entry.text.length <= 2000 &&
-    Number.isFinite(entry.createdAt) &&
-    entry.createdAt >= 0;
+    typeof entry.title === "string" && entry.title.trim().length > 0 && entry.title.length <= 70 &&
+    typeof entry.text === "string" && entry.text.trim().length > 0 && entry.text.length <= 2000 &&
+    Number.isFinite(entry.createdAt) && entry.createdAt >= 0 &&
+    (entry.favorite === undefined || typeof entry.favorite === "boolean");
 }
 
-function cleanEntry(entry) {
+function cleanEntry(entry){
   return {
-    id: entry.id,
-    mood: entry.mood,
-    date: entry.date,
-    title: entry.title.trim(),
-    text: entry.text.trim(),
-    createdAt: entry.createdAt
+    id:entry.id,
+    mood:entry.mood,
+    date:entry.date,
+    title:entry.title.trim(),
+    text:entry.text.trim(),
+    createdAt:entry.createdAt,
+    favorite:entry.favorite === true
   };
 }
 
-try {
-  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-  if (!Array.isArray(saved) || !saved.every(validEntry)) {
-    throw new Error("Invalid stored entries");
-  }
-  const unique = new Map(saved.map(entry => [entry.id, cleanEntry(entry)]));
-  entries = [...unique.values()];
-} catch {
-  // Preserve existing browser data rather than overwrite unreadable content.
-  storageAvailable = false;
-  $("status").textContent =
-    "Saved entries could not be loaded. Changes will stay in this tab; export them before closing.";
-}
-
-function persist() {
-  if (!storageAvailable) return false;
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-function announce(message, saved) {
-  $("status").textContent = message + (
-    saved ? "" : " Browser saving is unavailable. Export a backup before closing."
-  );
-}
-
-function makeId() {
+function makeId(){
   return globalThis.crypto?.randomUUID?.() ||
     `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 }
 
-$("entryDate").value = localDate();
+function message(text){
+  $("status").textContent = text;
+}
+
+try{
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  if(!Array.isArray(saved) || !saved.every(validEntry)) throw new Error();
+  entries = [...new Map(saved.map(entry => [entry.id,cleanEntry(entry)])).values()];
+}catch{
+  storageReadable = false;
+  message("Saved entries could not be loaded. New changes will stay in this tab; export them before closing.");
+}
+
+function persist(){
+  if(!storageReadable) return false;
+  try{
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(entries));
+    return true;
+  }catch{
+    return false;
+  }
+}
+
+function reportSave(text,saved){
+  message(text + (saved ? "" : " Browser saving is unavailable. Export a backup before closing."));
+}
+
+function formatDate(value){
+  return new Date(value+"T12:00:00").toLocaleDateString(undefined,{
+    month:"short",day:"numeric",year:"numeric"
+  });
+}
+
+// MOOD SELECTION
+function setMood(mood){
+  selectedMood = Object.hasOwn(moods,mood) ? mood : null;
+  document.querySelectorAll(".mood").forEach(button => {
+    button.setAttribute("aria-pressed",String(button.dataset.mood === selectedMood));
+  });
+  $("moodHint").textContent = selectedMood
+    ? moods[selectedMood].hint : "Every feeling belongs here.";
+}
 
 document.querySelectorAll(".mood").forEach(button => {
-  button.addEventListener("click", () => {
-    selectedMood = button.dataset.mood;
-
-    document.querySelectorAll(".mood").forEach(item => {
-      item.setAttribute("aria-pressed", String(item === button));
-    });
-
-    $("moodHint").textContent = moods[selectedMood].message;
+  button.addEventListener("click",()=>{
+    setMood(button.dataset.mood);
+    queueDraft();
   });
 });
 
-$("entryText").addEventListener("input", () => {
+// DRAFT RECOVERY
+function saveDraft(){
+  clearTimeout(draftTimer);
+  if(!draftReadable) return;
+
+  const draft = {
+    mood:selectedMood,
+    date:$("entryDate").value,
+    title:$("entryTitle").value,
+    text:$("entryText").value,
+    editingId
+  };
+
+  try{
+    if(!draft.title && !draft.text && !draft.mood && !draft.editingId){
+      localStorage.removeItem(DRAFT_KEY);
+      $("draftStatus").textContent = "";
+    }else{
+      localStorage.setItem(DRAFT_KEY,JSON.stringify(draft));
+      $("draftStatus").textContent = "Draft saved in this browser.";
+    }
+  }catch{
+    $("draftStatus").textContent = "Draft saving unavailable.";
+  }
+}
+
+function queueDraft(){
   $("characterCount").textContent = $("entryText").value.length;
+  $("draftStatus").textContent = "Saving draft…";
+  clearTimeout(draftTimer);
+  draftTimer = setTimeout(saveDraft,350);
+}
+
+["entryDate","entryTitle","entryText"].forEach(id=>{
+  $(id).addEventListener("input",queueDraft);
 });
 
-$("entryForm").addEventListener("submit", event => {
+function updateFormMode(){
+  const editing = editingId !== null;
+  $("formHeading").textContent = editing ? "Edit your moment" : "Daily check-in";
+  $("editBadge").hidden = !editing;
+  $("cancelEditButton").hidden = !editing;
+  $("saveButton").textContent = editing ? "Save changes" : "Save moment ✨";
+}
+
+function resetForm(){
+  clearTimeout(draftTimer);
+  $("entryForm").reset();
+  $("entryDate").value = localDate();
+  $("characterCount").textContent = "0";
+  editingId = null;
+  setMood(null);
+  updateFormMode();
+  saveDraft();
+}
+
+$("entryDate").value = localDate();
+
+try{
+  const raw = localStorage.getItem(DRAFT_KEY);
+  if(raw){
+    const draft = JSON.parse(raw);
+
+    if(
+      !draft || typeof draft !== "object" ||
+      typeof draft.title !== "string" || draft.title.length > 70 ||
+      typeof draft.text !== "string" || draft.text.length > 2000 ||
+      !validDate(draft.date) ||
+      !(draft.mood === null || Object.hasOwn(moods,draft.mood)) ||
+      !(draft.editingId === null || typeof draft.editingId === "string")
+    ) throw new Error();
+
+    $("entryDate").value = draft.date;
+    $("entryTitle").value = draft.title;
+    $("entryText").value = draft.text;
+    $("characterCount").textContent = draft.text.length;
+    setMood(draft.mood);
+
+    editingId = entries.some(entry=>entry.id === draft.editingId)
+      ? draft.editingId : null;
+
+    $("draftStatus").textContent = "Your previous draft was restored.";
+    updateFormMode();
+  }
+}catch{
+  draftReadable = false;
+  $("draftStatus").textContent = "Draft recovery unavailable. Existing stored draft was preserved.";
+}
+
+function canReplaceDraft(){
+  const hasContent =
+    $("entryTitle").value.trim() || $("entryText").value.trim() || selectedMood;
+
+  return !hasContent || confirm("Replace the current unsaved draft?");
+}
+
+// SAVE AND EDIT
+$("entryForm").addEventListener("submit",event=>{
   event.preventDefault();
 
-  if (!selectedMood) {
-    $("status").textContent = "Choose a mood before saving.";
+  if(!selectedMood){
+    message("Choose a mood before saving.");
     document.querySelector(".mood").focus();
     return;
   }
@@ -351,60 +524,134 @@ $("entryForm").addEventListener("submit", event => {
   const text = $("entryText").value.trim();
   const date = $("entryDate").value;
 
-  if (!title || !text || !validDate(date)) {
-    $("status").textContent = "Add a valid date, a title, and a short note.";
+  if(!title || !text || !validDate(date)){
+    message("Add a valid date, title, and note.");
     return;
   }
 
-  entries.push({
-    id: makeId(),
-    mood: selectedMood,
-    date,
-    title,
-    text,
-    createdAt: Date.now()
-  });
+  const existing = entries.find(entry=>entry.id === editingId);
+
+  if(editingId && !existing){
+    message("This entry is no longer available. Cancel editing to create a new entry.");
+    return;
+  }
+
+  const entry = {
+    id:existing?.id || makeId(),
+    mood:selectedMood,
+    date,title,text,
+    createdAt:existing?.createdAt ?? Date.now(),
+    favorite:existing?.favorite ?? false
+  };
+
+  if(existing){
+    entries = entries.map(item=>item.id === existing.id ? entry : item);
+  }else{
+    entries.push(entry);
+  }
 
   const saved = persist();
-
-  $("entryForm").reset();
-  $("entryDate").value = localDate();
-  $("characterCount").textContent = "0";
-  selectedMood = null;
-
-  document.querySelectorAll(".mood").forEach(button => {
-    button.setAttribute("aria-pressed", "false");
-  });
-
-  $("moodHint").textContent = "Choose the feeling that fits best.";
-  render();
-  announce("Your moment has been added.", saved);
+  resetForm();
+  renderAll();
+  reportSave(existing ? "Your entry was updated." : "Your moment was added.",saved);
 });
 
-function displayDate(value) {
-  return new Date(value + "T12:00:00").toLocaleDateString(undefined, {
-    month: "short",
-    day: "numeric",
-    year: "numeric"
-  });
+function editEntry(entry){
+  if(editingId === entry.id) return;
+  if(!canReplaceDraft()) return;
+
+  editingId = entry.id;
+  $("entryDate").value = entry.date;
+  $("entryTitle").value = entry.title;
+  $("entryText").value = entry.text;
+  $("characterCount").textContent = entry.text.length;
+  setMood(entry.mood);
+  updateFormMode();
+  saveDraft();
+
+  $(".unused"); // No effect; removed below.
+}
+</script>
+
+<script>
+// Continue app behavior.
+function beginEdit(entry){
+  if(editingId === entry.id) return;
+  if(!canReplaceDraft()) return;
+
+  editingId = entry.id;
+  $("entryDate").value = entry.date;
+  $("entryTitle").value = entry.title;
+  $("entryText").value = entry.text;
+  $("characterCount").textContent = entry.text.length;
+  setMood(entry.mood);
+  updateFormMode();
+  saveDraft();
+
+  document.querySelector(".composer").scrollIntoView({block:"start"});
+  $("entryTitle").focus({preventScroll:true});
 }
 
-function render() {
+$("cancelEditButton").addEventListener("click",()=>{
+  if(!confirm("Discard the current edit?")) return;
+  resetForm();
+  message("Editing canceled. The saved entry was unchanged.");
+});
+
+// WRITING PROMPTS
+function renderPrompt(){
+  $("promptText").textContent = prompts[promptIndex];
+}
+$("newPromptButton").addEventListener("click",()=>{
+  promptIndex = (promptIndex+1+Math.floor(Math.random()*(prompts.length-1))) % prompts.length;
+  renderPrompt();
+});
+$("usePromptButton").addEventListener("click",()=>{
+  const current = $("entryText").value;
+  const addition = (current ? "\n\n" : "") + prompts[promptIndex] + "\n";
+
+  if(current.length + addition.length > 2000){
+    message("There is not enough space to add this prompt.");
+    return;
+  }
+
+  $("entryText").value += addition;
+  queueDraft();
+  $("entryText").focus();
+});
+
+// JOURNAL LIST
+function createButton(text,callback,className=""){
+  const button = document.createElement("button");
+  button.type = "button";
+  button.textContent = text;
+  button.className = className;
+  button.addEventListener("click",callback);
+  return button;
+}
+
+function filteredEntries(){
   const query = $("searchInput").value.trim().toLowerCase();
-  const filter = $("moodFilter").value;
+  const mood = $("moodFilter").value;
+  const favorites = $("favoritesOnly").checked;
+  const direction = $("sortOrder").value === "oldest" ? 1 : -1;
 
-  const visible = entries.filter(entry =>
-    (filter === "all" || entry.mood === filter) &&
+  return entries.filter(entry=>
+    (mood === "all" || entry.mood === mood) &&
+    (!favorites || entry.favorite) &&
+    (!dateFilter || entry.date === dateFilter) &&
     `${entry.title} ${entry.text}`.toLowerCase().includes(query)
-  ).sort((a, b) =>
-    b.date.localeCompare(a.date) || b.createdAt - a.createdAt
+  ).sort((a,b)=>
+    direction*(a.date.localeCompare(b.date) || a.createdAt-b.createdAt)
   );
+}
 
+function renderEntries(){
+  const visible = filteredEntries();
   $("entries").replaceChildren();
 
-  for (const entry of visible) {
+  for(const entry of visible){
     const mood = moods[entry.mood];
-
     const article = document.createElement("article");
     article.className = "entry";
 
@@ -414,20 +661,18 @@ function render() {
     const emoji = document.createElement("span");
     emoji.className = "entry-emoji";
     emoji.textContent = mood.emoji;
-    emoji.setAttribute("aria-hidden", "true");
+    emoji.setAttribute("aria-hidden","true");
 
     const info = document.createElement("div");
-
     const title = document.createElement("h3");
-    title.className = "entry-title";
     title.textContent = entry.title;
 
     const date = document.createElement("div");
-    date.className = "entry-date";
-    date.textContent = displayDate(entry.date);
+    date.className = "date";
+    date.textContent = formatDate(entry.date);
 
-    info.append(title, date);
-    head.append(emoji, info);
+    info.append(title,date);
+    head.append(emoji,info);
 
     const text = document.createElement("p");
     text.textContent = entry.text;
@@ -439,25 +684,38 @@ function render() {
     tag.className = "tag";
     tag.textContent = `Feeling ${mood.label.toLowerCase()}`;
 
-    const remove = document.createElement("button");
-    remove.type = "button";
-    remove.className = "delete";
-    remove.textContent = "Delete";
-    remove.setAttribute("aria-label", `Delete entry: ${entry.title}`);
+    const actions = document.createElement("div");
+    actions.className = "entry-actions";
 
-    remove.addEventListener("click", () => {
-      if (!confirm(`Delete “${entry.title}”?`)) return;
-
-      entries = entries.filter(item => item.id !== entry.id);
+    const favorite = createButton(entry.favorite ? "★ Saved" : "☆ Favorite",()=>{
+      entry.favorite = !entry.favorite;
       const saved = persist();
+      renderAll();
+      reportSave(entry.favorite ? "Added to favorites." : "Removed from favorites.",saved);
+    },"favorite");
 
-      render();
-      announce("Entry deleted.", saved);
+    favorite.setAttribute("aria-pressed",String(entry.favorite));
+    favorite.setAttribute("aria-label",`Favorite: ${entry.title}`);
+
+    const edit = createButton("Edit",()=>beginEdit(entry));
+    edit.setAttribute("aria-label",`Edit entry: ${entry.title}`);
+
+    const remove = createButton("Delete",()=>{
+      if(!confirm(`Delete “${entry.title}”?`)) return;
+
+      entries = entries.filter(item=>item.id !== entry.id);
+      if(editingId === entry.id) resetForm();
+
+      const saved = persist();
+      renderAll();
+      reportSave("Entry deleted.",saved);
       $("searchInput").focus();
     });
+    remove.setAttribute("aria-label",`Delete entry: ${entry.title}`);
 
-    bottom.append(tag, remove);
-    article.append(head, text, bottom);
+    actions.append(favorite,edit,remove);
+    bottom.append(tag,actions);
+    article.append(head,text,bottom);
     $("entries").append(article);
   }
 
@@ -465,66 +723,228 @@ function render() {
     `${visible.length} ${visible.length === 1 ? "entry" : "entries"}`;
 
   $("emptyState").hidden = visible.length > 0;
-  $("emptyTitle").textContent =
-    entries.length ? "No matching moments" : "Your story starts here";
-  $("emptyText").textContent =
-    entries.length
-      ? "Try a different search or mood filter."
-      : "Save your first moment using the check-in form.";
+  $("emptyTitle").textContent = entries.length
+    ? "No matching moments" : "Your story starts here";
+  $("emptyText").textContent = entries.length
+    ? "Try changing your search or filters."
+    : "Save your first moment using the check-in form.";
 
-  $("totalCount").textContent = entries.length;
-  $("dayCount").textContent = new Set(entries.map(entry => entry.date)).size;
-
-  const counts = {};
-  for (const entry of entries) counts[entry.mood] = (counts[entry.mood] || 0) + 1;
-
-  const highest = Math.max(0, ...Object.values(counts));
-  const leaders = Object.keys(moods).filter(key => counts[key] === highest);
-
-  $("commonMood").textContent = highest
-    ? leaders.map(key => moods[key].emoji).join(" ")
-    : "—";
-
-  $("commonMood").title = highest
-    ? leaders.map(key => moods[key].label).join(", ")
-    : "No entries yet";
+  $("clearDateButton").hidden = !dateFilter;
+  $("clearDateButton").textContent = dateFilter
+    ? `Clear ${formatDate(dateFilter)}` : "Clear date";
 }
 
-$("searchInput").addEventListener("input", render);
-$("moodFilter").addEventListener("change", render);
-
-// THEME
-try {
-  document.body.classList.toggle(
-    "dark",
-    localStorage.getItem(THEME_KEY) === "dark"
-  );
-} catch {}
-
-function updateThemeButton() {
-  const dark = document.body.classList.contains("dark");
-  $("themeButton").textContent = dark ? "Light mode" : "Dark mode";
-  $("themeButton").setAttribute("aria-pressed", String(dark));
-}
-
-$("themeButton").addEventListener("click", () => {
-  const dark = document.body.classList.toggle("dark");
-  try { localStorage.setItem(THEME_KEY, dark ? "dark" : "light"); } catch {}
-  updateThemeButton();
+["searchInput","moodFilter","favoritesOnly","sortOrder"].forEach(id=>{
+  $(id).addEventListener(id === "searchInput" ? "input" : "change",renderEntries);
 });
 
-// BACKUP EXPORT
-$("exportButton").addEventListener("click", () => {
+$("clearDateButton").addEventListener("click",()=>{
+  dateFilter = null;
+  renderEntries();
+  renderCalendar();
+});
+
+// STATS AND CHART
+function moodCounts(){
+  const counts = Object.fromEntries(Object.keys(moods).map(key=>[key,0]));
+  entries.forEach(entry=>counts[entry.mood]++);
+  return counts;
+}
+
+function renderStats(){
+  $("totalCount").textContent = entries.length;
+  $("dayCount").textContent = new Set(entries.map(entry=>entry.date)).size;
+  $("favoriteCount").textContent = entries.filter(entry=>entry.favorite).length;
+
+  const counts = moodCounts();
+  const highest = Math.max(0,...Object.values(counts));
+  const leaders = Object.keys(moods).filter(key=>counts[key] === highest);
+
+  $("commonMood").textContent = highest
+    ? leaders.map(key=>moods[key].emoji).join(" ") : "—";
+  $("commonMood").title = highest
+    ? leaders.map(key=>moods[key].label).join(", ") : "No entries yet";
+}
+
+function renderChart(){
+  const counts = moodCounts();
+  const largest = Math.max(1,...Object.values(counts));
+  $("moodChart").replaceChildren();
+
+  for(const [key,mood] of Object.entries(moods)){
+    const row = document.createElement("div");
+    row.className = "chart-row";
+
+    const label = document.createElement("span");
+    label.className = "chart-label";
+    label.textContent = `${mood.emoji} ${mood.label}`;
+
+    const track = document.createElement("div");
+    track.className = "track";
+    track.setAttribute("aria-hidden","true");
+
+    const bar = document.createElement("div");
+    bar.className = "bar";
+    bar.style.width = `${counts[key]/largest*100}%`;
+    track.append(bar);
+
+    const count = document.createElement("span");
+    count.className = "chart-count";
+    count.textContent = counts[key];
+
+    row.append(label,track,count);
+    $("moodChart").append(row);
+  }
+
+  $("chartSummary").textContent = entries.length
+    ? `${entries.length} recorded entries across ${new Set(entries.map(entry=>entry.date)).size} days.`
+    : "Save an entry to start building your chart.";
+}
+
+// CALENDAR
+function showView(view){
+  activeView = view;
+  $("journalView").hidden = view !== "journal";
+  $("calendarView").hidden = view !== "calendar";
+  $("insightsView").hidden = view !== "insights";
+
+  document.querySelectorAll("[data-view]").forEach(button=>{
+    button.setAttribute("aria-pressed",String(button.dataset.view === view));
+  });
+
+  if(view === "calendar") renderCalendar();
+  if(view === "insights") renderChart();
+}
+
+document.querySelectorAll("[data-view]").forEach(button=>{
+  button.addEventListener("click",()=>showView(button.dataset.view));
+});
+
+function renderCalendar(){
+  const year = calendarMonth.getFullYear();
+  const month = calendarMonth.getMonth();
+
+  $("monthTitle").textContent = calendarMonth.toLocaleDateString(undefined,{
+    month:"long",year:"numeric"
+  });
+
+  const grid = $("calendarGrid");
+  grid.replaceChildren();
+
+  for(const day of ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]){
+    const heading = document.createElement("div");
+    heading.className = "weekday";
+    heading.textContent = day;
+    grid.append(heading);
+  }
+
+  const firstDay = new Date(year,month,1).getDay();
+  const daysInMonth = new Date(year,month+1,0).getDate();
+
+  for(let i=0;i<firstDay;i++){
+    const blank = document.createElement("div");
+    blank.setAttribute("aria-hidden","true");
+    grid.append(blank);
+  }
+
+  const grouped = new Map();
+  for(const entry of entries){
+    if(!grouped.has(entry.date)) grouped.set(entry.date,[]);
+    grouped.get(entry.date).push(entry);
+  }
+
+  for(let day=1;day<=daysInMonth;day++){
+    const date = localDate(new Date(year,month,day));
+    const daily = grouped.get(date) || [];
+    const icons = [...new Set(daily.map(entry=>moods[entry.mood].emoji))];
+
+    const button = createButton("",()=>{
+      dateFilter = date;
+      $("searchInput").value = "";
+      $("moodFilter").value = "all";
+      $("favoritesOnly").checked = false;
+      renderEntries();
+      showView("journal");
+      message(`Showing entries for ${formatDate(date)}.`);
+      $("clearDateButton").focus();
+    },"calendar-day");
+
+    if(date === localDate()){
+      button.classList.add("today");
+      button.setAttribute("aria-current","date");
+    }
+    if(date === dateFilter) button.classList.add("selected");
+
+    button.setAttribute("aria-label",
+      `${formatDate(date)}, ${daily.length} entries`+
+      (daily.length ? `, ${[...new Set(daily.map(entry=>moods[entry.mood].label))].join(", ")}` : "")
+    );
+
+    const number = document.createElement("span");
+    number.className = "number";
+    number.textContent = day;
+
+    const emoji = document.createElement("span");
+    emoji.className = "emojis";
+    emoji.textContent = icons.slice(0,2).join("");
+    emoji.setAttribute("aria-hidden","true");
+
+    button.append(number,emoji);
+
+    if(daily.length){
+      const count = document.createElement("small");
+      count.textContent = `${daily.length} ${daily.length === 1 ? "entry" : "entries"}`;
+      button.append(count);
+    }
+
+    grid.append(button);
+  }
+}
+
+$("previousMonth").addEventListener("click",()=>{
+  calendarMonth = new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()-1,1);
+  renderCalendar();
+});
+$("nextMonth").addEventListener("click",()=>{
+  calendarMonth = new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,1);
+  renderCalendar();
+});
+
+function renderAll(){
+  renderEntries();
+  renderStats();
+  if(activeView === "calendar") renderCalendar();
+  if(activeView === "insights") renderChart();
+}
+
+// THEME
+try{
+  document.body.classList.toggle("dark",localStorage.getItem(THEME_KEY) === "dark");
+}catch{}
+
+function updateTheme(){
+  const dark = document.body.classList.contains("dark");
+  $("themeButton").textContent = dark ? "Light mode" : "Dark mode";
+  $("themeButton").setAttribute("aria-pressed",String(dark));
+}
+$("themeButton").addEventListener("click",()=>{
+  const dark = document.body.classList.toggle("dark");
+  try{localStorage.setItem(THEME_KEY,dark ? "dark" : "light");}catch{}
+  updateTheme();
+});
+
+// BACKUPS: old Moodscape backups remain supported.
+$("exportButton").addEventListener("click",()=>{
   const backup = {
-    app: "Moodscape",
-    version: 1,
-    exportedAt: new Date().toISOString(),
+    app:"Moodscape",
+    version:1,
+    exportedAt:new Date().toISOString(),
     entries
   };
 
   const url = URL.createObjectURL(new Blob(
-    [JSON.stringify(backup, null, 2)],
-    { type: "application/json" }
+    [JSON.stringify(backup,null,2)],
+    {type:"application/json"}
   ));
 
   const link = document.createElement("a");
@@ -533,44 +953,38 @@ $("exportButton").addEventListener("click", () => {
   document.body.append(link);
   link.click();
   link.remove();
-
-  setTimeout(() => URL.revokeObjectURL(url), 10000);
-  $("status").textContent = "Backup download requested.";
+  setTimeout(()=>URL.revokeObjectURL(url),10000);
+  message("Backup download requested. Unsaved drafts are not included.");
 });
 
-// BACKUP IMPORT: merge without replacing existing entries
-$("importButton").addEventListener("click", () => {
+$("importButton").addEventListener("click",()=>{
   $("importInput").value = "";
   $("importInput").click();
 });
 
-$("importInput").addEventListener("change", async () => {
+$("importInput").addEventListener("change",async()=>{
   const file = $("importInput").files[0];
-  if (!file) return;
+  if(!file) return;
 
-  if (file.size > 5 * 1024 * 1024) {
-    $("status").textContent = "Choose a backup smaller than 5 MB.";
+  if(file.size > 5*1024*1024){
+    message("Choose a backup smaller than 5 MB.");
     return;
   }
 
-  try {
+  try{
     const backup = JSON.parse(await file.text());
 
-    if (
-      backup?.app !== "Moodscape" ||
-      backup.version !== 1 ||
-      !Array.isArray(backup.entries) ||
-      backup.entries.length > 10000 ||
+    if(
+      backup?.app !== "Moodscape" || backup.version !== 1 ||
+      !Array.isArray(backup.entries) || backup.entries.length > 10000 ||
       !backup.entries.every(validEntry)
-    ) {
-      throw new Error("Invalid backup");
-    }
+    ) throw new Error();
 
-    const known = new Set(entries.map(entry => entry.id));
+    const known = new Set(entries.map(entry=>entry.id));
     const additions = [];
 
-    for (const entry of backup.entries) {
-      if (!known.has(entry.id)) {
+    for(const entry of backup.entries){
+      if(!known.has(entry.id)){
         known.add(entry.id);
         additions.push(cleanEntry(entry));
       }
@@ -578,20 +992,25 @@ $("importInput").addEventListener("change", async () => {
 
     entries.push(...additions);
     const saved = persist();
+    renderAll();
 
-    render();
-    announce(
-      `Imported ${additions.length} new ${additions.length === 1 ? "entry" : "entries"}.`,
+    reportSave(
+      `Imported ${additions.length} new entries. Existing matching IDs were kept.`,
       saved
     );
-  } catch {
-    $("status").textContent =
-      "This file is not a valid Moodscape backup. Existing entries were preserved.";
+  }catch{
+    message("This is not a valid Moodscape backup. Existing entries were preserved.");
   }
 });
 
-updateThemeButton();
-render();
+document.addEventListener("visibilitychange",()=>{
+  if(document.visibilityState === "hidden") saveDraft();
+});
+window.addEventListener("pagehide",saveDraft);
+
+renderPrompt();
+updateTheme();
+renderAll();
 </script>
 </body>
 </html>
